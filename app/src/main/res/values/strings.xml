@@ -6,4 +6,5 @@
     <string name="mostly_cloudy">mostly cloudy</string>
     <string name="weather_cloudy">cloudy</string>
     <string name="weather_format">Temp: %s°C to %s°C.\nWind up to %sm/s.\n%s.</string>
+    <string name="city_not_found">Город не найден</string>
 </resources>

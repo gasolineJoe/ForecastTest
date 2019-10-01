@@ -61,7 +61,10 @@ class ForecastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    fun clear() = itemList.clear()
+    fun clear() {
+        itemList.clear()
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ForecastHolder(

@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.app.Application
 import com.example.myapplication.dagger.*
+import net.danlew.android.joda.JodaTimeAndroid
 
 class App : Application() {
 
@@ -12,6 +13,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        JodaTimeAndroid.init(this)
         network = DaggerNetworkComponent
             .builder()
             .build()

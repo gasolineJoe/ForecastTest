@@ -8,6 +8,10 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     buildToolsVersion "29.0.2"
     dataBinding {
         enabled = true
@@ -56,7 +60,7 @@ dependencies {
     //rxjava
     implementation "io.reactivex.rxjava2:rxjava:$rxandroid_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxjava2_version"
-    implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.2.0'
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"

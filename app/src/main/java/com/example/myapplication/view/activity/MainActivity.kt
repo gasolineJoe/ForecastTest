@@ -1,13 +1,16 @@
 package com.example.myapplication.view.activity
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.App
 import com.example.myapplication.R
 import com.example.myapplication.network.IForecast
+import com.example.myapplication.network.pojo.Forecast
 import com.example.myapplication.view.adapter.ForecastAdapter
-import com.jakewharton.rxbinding.widget.RxTextView
+import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -34,26 +37,46 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getWeatherInCity(city: String) {
-        adapter.clear()
+        startLoading()
         val disp = weatherApi.getForecast(city)
-            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
             .subscribe({ forecast ->
-                adapter.setItems(forecast)
+                setListItems(forecast)
             }, { error ->
-                //todo
+                Log.e("forecast request", error.localizedMessage ?: "error")
+                showEmptyView()
             })
         compositeDisposable.add(disp)
     }
 
+    private fun setListItems(forecast: Forecast) {
+        adapter.setItems(forecast)
+        empty_view.visibility = View.GONE
+        progress.visibility = View.GONE
+    }
+
+    private fun showEmptyView() {
+        empty_view.visibility = View.VISIBLE
+        progress.visibility = View.GONE
+    }
+
+    private fun startLoading() {
+        adapter.clear()
+        progress.visibility = View.VISIBLE
+        empty_view.visibility = View.GONE
+    }
+
     private fun initSearch() {
-        RxTextView.textChanges(edit_city_name)
+        val disp = RxTextView.textChanges(edit_city_name)
             .debounce(800, TimeUnit.MILLISECONDS)
             .filter { it.length > 2 }
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 val cityName = it.toString().trim()
                 getWeatherInCity(cityName)
             }
+        compositeDisposable.add(disp)
     }
 
     private fun initList() {
