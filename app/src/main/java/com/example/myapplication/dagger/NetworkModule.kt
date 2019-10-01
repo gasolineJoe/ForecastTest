@@ -23,6 +23,7 @@ class NetworkModule {
             .request().url()
             .newBuilder()
             .addQueryParameter("appid", OPENWEATHER_API_KEY)
+            .addQueryParameter("units", "metric")
             .build()
         val newRequest = chain.request().newBuilder().url(url).build()
         chain.proceed(newRequest)

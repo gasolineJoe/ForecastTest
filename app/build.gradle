@@ -64,4 +64,7 @@ dependencies {
 
     //gson
     implementation "com.google.code.gson:gson:$gson_version"
+
+    //joda time
+    implementation 'net.danlew:android.joda:2.10.3'
 }

@@ -60,7 +60,7 @@ class Coord {
 class WeatherItem {
     @SerializedName("dt")
     @Expose
-    var dt: Int? = null
+    var dt: Long? = null
     @SerializedName("main")
     @Expose
     var weatherData: WeatherData? = null

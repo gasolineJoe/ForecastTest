@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Прогноз погоды</string>
+    <string name="city_name">Город</string>
+    <string name="weather_clear">ясно</string>
+    <string name="partially_cloudy">легкая облачность</string>
+    <string name="mostly_cloudy">в основном облачно</string>
+    <string name="weather_cloudy">облачно</string>
+    <string name="weather_format">Температура: от %s°C до %s°C.\nВетер до %sм/с.\n%s.</string>
+</resources>
