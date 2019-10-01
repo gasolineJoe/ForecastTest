@@ -54,8 +54,9 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger2_version"
 
     //rxjava
-    implementation "io.reactivex.rxjava2:rxandroid:$rxjava2_version"
     implementation "io.reactivex.rxjava2:rxjava:$rxandroid_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxjava2_version"
+    implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"

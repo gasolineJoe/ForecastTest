@@ -11,16 +11,12 @@
         android:id="@+id/edit_city_name"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:drawableStart="@drawable/baseline_search_black_24"
+        android:drawableLeft="@drawable/baseline_search_black_24"
+        android:drawablePadding="8dp"
         android:hint="@string/city_name"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/btn_search"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btn_search"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

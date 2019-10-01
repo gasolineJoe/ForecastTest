@@ -7,10 +7,12 @@ import com.example.myapplication.App
 import com.example.myapplication.R
 import com.example.myapplication.network.IForecast
 import com.example.myapplication.view.adapter.ForecastAdapter
+import com.jakewharton.rxbinding.widget.RxTextView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -45,9 +47,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initSearch() {
-        btn_search.setOnClickListener {
-            getWeatherInCity(edit_city_name.text.toString())
-        }
+        RxTextView.textChanges(edit_city_name)
+            .debounce(800, TimeUnit.MILLISECONDS)
+            .filter { it.length > 2 }
+            .subscribe {
+                val cityName = it.toString().trim()
+                getWeatherInCity(cityName)
+            }
     }
 
     private fun initList() {
