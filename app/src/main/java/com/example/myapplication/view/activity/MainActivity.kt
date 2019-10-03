@@ -13,6 +13,7 @@ import com.example.myapplication.view.adapter.ForecastAdapter
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
@@ -36,7 +37,10 @@ class MainActivity : AppCompatActivity() {
         initList()
     }
 
+    private var requestDisposable: Disposable? = null
+
     private fun getWeatherInCity(city: String) {
+        requestDisposable?.dispose()
         startLoading()
         val disp = weatherApi.getForecast(city)
             .observeOn(AndroidSchedulers.mainThread())
@@ -47,6 +51,7 @@ class MainActivity : AppCompatActivity() {
                 Log.e("forecast request", error.localizedMessage ?: "error")
                 showEmptyView()
             })
+        requestDisposable = disp
         compositeDisposable.add(disp)
     }
 
