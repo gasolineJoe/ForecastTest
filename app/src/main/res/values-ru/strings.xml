@@ -7,4 +7,13 @@
     <string name="mostly_cloudy">в основном облачно</string>
     <string name="weather_cloudy">облачно</string>
     <string name="weather_format">Температура: от %s°C до %s°C.\nВетер до %sм/с.\n%s.</string>
+    <string name="city_not_found">Город не найден</string>
+    <string name="internalError">Ошибка приложения</string>
+
+    <string-array name="cloudiness_levels">
+        <item>ясно</item>
+        <item>легкая облачность</item>
+        <item>в основном облачно</item>
+        <item>облачно</item>
+    </string-array>
 </resources>

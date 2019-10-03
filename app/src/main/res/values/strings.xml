@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Test forecast</string>
     <string name="city_name">City name</string>
@@ -6,5 +7,13 @@
     <string name="mostly_cloudy">mostly cloudy</string>
     <string name="weather_cloudy">cloudy</string>
     <string name="weather_format">Temp: %s°C to %s°C.\nWind up to %sm/s.\n%s.</string>
-    <string name="city_not_found">Город не найден</string>
+    <string name="city_not_found">City not found</string>
+    <string name="internalError">Internal error</string>
+
+    <string-array name="cloudiness_levels">
+        <item>clear</item>
+        <item>partially cloudy</item>
+        <item>mostly cloudy</item>
+        <item>cloudy</item>
+    </string-array>
 </resources>

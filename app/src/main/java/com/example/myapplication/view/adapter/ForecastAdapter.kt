@@ -16,42 +16,57 @@ import javax.inject.Inject
 
 class ForecastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class ForecastAdapterItem(val date: String, w: List<WeatherItem>) {
+    class ForecastAdapterItem(val date: String, weatherList: List<WeatherItem>) {
         val text: String
         @Inject
         lateinit var context: Context
 
+        val MAX_CLOUDINNES_PERCENTAGE = 100
+
+        private fun getMinimumTemp(weatherList: List<WeatherItem>) =
+            weatherList.minBy { it.weatherData?.tempMin ?: 0.0 }?.weatherData?.tempMin
+
+        private fun getMaximumTemp(weatherList: List<WeatherItem>) =
+            weatherList.maxBy { it.weatherData?.tempMax ?: 0.0 }?.weatherData?.tempMax
+
+        private fun getMaximumWind(weatherList: List<WeatherItem>) =
+            weatherList.maxBy { it.wind?.speed ?: 0.0 }?.wind?.speed
+
+        private fun getCloudLevelAvgValue(weatherList: List<WeatherItem>, totalLevels: Int): Int {
+            val avgCloudPercent = weatherList.sumBy { it.clouds?.all ?: 0 } / weatherList.size
+            val levelThreshold = MAX_CLOUDINNES_PERCENTAGE / totalLevels
+            return (avgCloudPercent - levelThreshold / 2) / levelThreshold
+        }
+
+
         init {
             App.app.inject(this)
-            val min = w.minBy { it.weatherData?.tempMin ?: 0.0 }?.weatherData?.tempMin
-            val max = w.maxBy { it.weatherData?.tempMax ?: 0.0 }?.weatherData?.tempMax
-            val wind = w.maxBy { it.wind?.speed ?: 0.0 }?.wind?.speed
-            val clouds = context.getString(
-                when (w.sumBy { it.clouds?.all ?: 0 } / w.size / 25) {
-                    0 -> R.string.weather_clear
-                    1 -> R.string.partially_cloudy
-                    2 -> R.string.mostly_cloudy
-                    3 -> R.string.weather_cloudy
-                    else -> R.string.weather_cloudy
-                }
-            )
+            val temperatureMin = getMinimumTemp(weatherList)
+            val temperatureMax = getMaximumTemp(weatherList)
+            val windSpeedMax = getMaximumWind(weatherList)
+            val cloudLevelNamesArray = context.resources.getStringArray(R.array.cloudiness_levels)
+            val cloudLevelsCount = cloudLevelNamesArray.size
+            val cloudLevelName =
+                cloudLevelNamesArray[getCloudLevelAvgValue(weatherList, cloudLevelsCount)]
             text = context.getString(
                 R.string.weather_format,
-                min.toString(),
-                max.toString(),
-                wind.toString(),
-                clouds.capitalize()
+                temperatureMin.toString(),
+                temperatureMax.toString(),
+                windSpeedMax.toString(),
+                cloudLevelName.capitalize()
             )
         }
     }
 
     private val itemList = mutableListOf<ForecastAdapterItem>()
 
+    private fun unixDateToJavaDate(date: Long?) = date?.times(1000L) ?: 0L
+
     fun setItems(forecast: Forecast) {
         forecast.list?.let { list ->
             itemList.clear()
             val listOfWeathers = list.groupBy {
-                val date = DateTime(it.dt?.times(1000L))
+                val date = DateTime(unixDateToJavaDate(it.dt))
                 return@groupBy "${date.monthOfYear().asShortText} ${date.dayOfMonth().asText}"
             }
             for (w in listOfWeathers) {

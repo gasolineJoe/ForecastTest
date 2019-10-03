@@ -4,6 +4,7 @@ import com.example.myapplication.view.activity.MainActivity
 import com.example.myapplication.network.OPENWEATHER_API_ADDRESS
 import com.example.myapplication.network.OPENWEATHER_API_KEY
 import com.example.myapplication.network.IForecast
+import com.example.myapplication.view.activity.ForecastPresenter
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -47,4 +48,5 @@ class NetworkModule {
 @Component(modules = [NetworkModule::class])
 interface NetworkComponent {
     fun inject(activity: MainActivity)
+    fun inject(presenter: ForecastPresenter)
 }
